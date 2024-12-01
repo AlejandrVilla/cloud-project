@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-const SearchVideos = ({ setCurrentVideo}) => {
+const SearchVideos = ({ setCurrentVideo, setConnectStatus}) => {
     const [videos, setVideos] = useState([]);      // lista de videos en el servidor
     const [loadingCameras, setLoadingCameras] = useState(true);
 
@@ -9,12 +9,19 @@ const SearchVideos = ({ setCurrentVideo}) => {
         // Cargar lista de videos
         axios.get('http://localhost:5000/videos')
             .then(res => setVideos(res.data))
-            .catch(err => console.error(`error: ${err}`));
+            .catch(err => {
+                console.error(`error: ${err}`);
+                setVideos([]);
+                setCurrentVideo("");
+                setConnectStatus(false);
+            });
         setLoadingCameras(false);
     }, [loadingCameras]);
 
     const handleUpdate = () => {
         setLoadingCameras(true);
+        setCurrentVideo("");
+        setConnectStatus(false);
     }
 
     const handleVideo = (video) => {

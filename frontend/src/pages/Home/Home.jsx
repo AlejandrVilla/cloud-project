@@ -23,7 +23,6 @@ function Home() {
         },
       });
 
-
       setSocketInstance(socket);
 
       socket.on("succes_connect", (data) => {
@@ -48,7 +47,8 @@ function Home() {
     <div className="App">
       <UploadVideo />
       <SearchVideos
-        setCurrentVideo={setCurrentVideo} />
+        setCurrentVideo={setCurrentVideo}
+        setConnectStatus={setConnectStatus}/>
       {currentVideo ? (
         <>
           {!connectStatus ? (
