@@ -77,7 +77,7 @@ def process_video(data):
         socketio.emit('error', {"message": "Video not found"})
         return
 
-    print(f"Transmitiendo {filename}")
+    print(f"Transmitiendo {filename} a {request.sid}")
     # Procesar el video con OpenCV
     cap = cv2.VideoCapture(file_path)
     try:

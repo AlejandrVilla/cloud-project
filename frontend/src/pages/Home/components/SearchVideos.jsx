@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
+const SERVER_URL = `${import.meta.env.VITE_SERVER_URL}/videos`;
+
 const SearchVideos = ({ setCurrentVideo, setConnectStatus}) => {
     const [videos, setVideos] = useState([]);      // lista de videos en el servidor
     const [loadingCameras, setLoadingCameras] = useState(true);
 
     useEffect(() => {
         // Cargar lista de videos
-        axios.get('http://localhost:5000/videos')
+        axios.get(SERVER_URL)
             .then(res => setVideos(res.data))
             .catch(err => {
                 console.error(`error: ${err}`);

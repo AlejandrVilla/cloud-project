@@ -4,6 +4,8 @@ import { io } from 'socket.io-client';
 import SearchVideos from './components/SearchVideos.jsx';
 import UploadVideo from './components/UploadVideo.jsx';
 
+const SERVER_URL = `${import.meta.env.VITE_SERVER_URL}/`;
+
 function Home() {
   const [currentVideo, setCurrentVideo] = useState();   // video a revisar
   const [socketInstance, setSocketInstance] = useState("");
@@ -16,7 +18,7 @@ function Home() {
 
   useEffect(() => {
     if (connectStatus === true) {
-      const socket = io("localhost:5000/", {
+      const socket = io(SERVER_URL, {
         transports: ["websocket"],
         cors: {
           origin: "*",
