@@ -1,7 +1,8 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const UPLOAD_URL = "http://127.0.0.1:5000/upload";
+const UPLOAD_URL = `${import.meta.env.VITE_SERVER_URL}/upload`;
+// const UPLOAD_URL = "http://127.0.0.1:5000/upload";
 
 const UploadVideo = () => {
     const [videoFile, setVideoFile] = useState(null);
