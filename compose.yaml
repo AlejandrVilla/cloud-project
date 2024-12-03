@@ -1,0 +1,19 @@
+services:
+  frontend-detection:
+    build: ./frontend
+    # image: docker.io/avherrera/frontend_ms:v2.2.2
+    ports:
+      - "3000:3000"
+    networks:
+      - backend
+  server-detection:
+    # image: docker.io/avherrera/getrecomendation_ms:v2.0.2
+    build: ./server-detection
+    ports:
+      - "5000:5000"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
