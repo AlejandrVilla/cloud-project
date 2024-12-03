@@ -5,7 +5,6 @@ from flask_cors import CORS, cross_origin
 import cv2
 import os
 from ultralytics import YOLO
-import threading
 import logging
 logging.getLogger("ultralytics").setLevel(logging.WARNING)
 
@@ -77,35 +76,32 @@ def process_video(data):
         socketio.emit('error', {"message": "Video not found"})
         return
 
-    print(f"Transmitiendo {filename} a {request.sid}")
-    # Procesar el video con OpenCV
+    print(f"Transmitiendo video {filename} a {request.sid}")
+    socketio.start_background_task(target=stream_video, file_path=file_path, sid=request.sid)
+
+def stream_video(file_path, sid):
     cap = cv2.VideoCapture(file_path)
     try:
         while cap.isOpened():
-            # Verificar si el cliente aún está conectado
-            if not client_connections.get(request.sid, False):
-                print(f"Transmisión cancelada para el cliente {request.sid}")
+            if not client_connections.get(sid, False):
+                print(f"Transmisión cancelada para el cliente {sid}")
                 break
 
             ret, frame = cap.read()
             if not ret:
                 break
 
-            # Detección de objetos con YOLOv8
             processed_frame = detect_objects(frame)
-
-            # Convertir frame para envío
             _, buffer = cv2.imencode('.jpg', processed_frame)
             frame_data = buffer.tobytes()
-            socketio.emit('frame', frame_data, to=request.sid)
-            time.sleep(0.03)  # Controlar la tasa de envío de frames
-
+            socketio.emit('frame', frame_data, to=sid)
+            time.sleep(0.03)
     except Exception as e:
         print(f"Error durante la transmisión: {e}")
     finally:
         cap.release()
-        socketio.emit('end_of_video', to=request.sid)
-        print(f"Transmisión finalizada para el cliente {request.sid}")
+        socketio.emit('end_of_video', to=sid)
+        print(f"Transmisión finalizada para el cliente {sid}")
 
 def detect_objects(frame):
     # Detectar objetos en el frame usando YOLOv8
@@ -124,4 +120,4 @@ def detect_objects(frame):
     return frame
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True, host="127.0.0.1", port=5000)
+    socketio.run(app, debug=True, host="0.0.0.0", port=5000)
