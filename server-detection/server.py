@@ -36,9 +36,9 @@ def upload_video():
         response = jsonify(msj)
         response.status_code = 400
         return response
-    print(f"guardando video {filename}")
     file = request.files['video']
     filename = file.filename
+    print(f"guardando video {filename}")
     file_path = os.path.join(VIDEO_DIR, filename)
     file.save(file_path)
     print(f"video {filename} guardado")
