@@ -76,32 +76,35 @@ def process_video(data):
         socketio.emit('error', {"message": "Video not found"})
         return
 
-    print(f"Transmitiendo video {filename} a {request.sid}")
-    socketio.start_background_task(target=stream_video, file_path=file_path, sid=request.sid)
-
-def stream_video(file_path, sid):
+    print(f"Transmitiendo {filename} a {request.sid}")
+    # Procesar el video con OpenCV
     cap = cv2.VideoCapture(file_path)
     try:
         while cap.isOpened():
-            if not client_connections.get(sid, False):
-                print(f"Transmisión cancelada para el cliente {sid}")
+            # Verificar si el cliente aún está conectado
+            if not client_connections.get(request.sid, False):
+                print(f"Transmisión cancelada para el cliente {request.sid}")
                 break
 
             ret, frame = cap.read()
             if not ret:
                 break
 
+            # Detección de objetos con YOLOv8
             processed_frame = detect_objects(frame)
+
+            # Convertir frame para envío
             _, buffer = cv2.imencode('.jpg', processed_frame)
             frame_data = buffer.tobytes()
-            socketio.emit('frame', frame_data, to=sid)
-            time.sleep(0.03)
+            socketio.emit('frame', frame_data, to=request.sid)
+            time.sleep(0.03)  # Controlar la tasa de envío de frames
+
     except Exception as e:
         print(f"Error durante la transmisión: {e}")
     finally:
         cap.release()
-        socketio.emit('end_of_video', to=sid)
-        print(f"Transmisión finalizada para el cliente {sid}")
+        socketio.emit('end_of_video', to=request.sid)
+        print(f"Transmisión finalizada para el cliente {request.sid}")
 
 def detect_objects(frame):
     # Detectar objetos en el frame usando YOLOv8

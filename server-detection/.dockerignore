@@ -37,6 +37,7 @@
 **/videos
 **/yolov5s.pt
 **/yolov8n.pt
+# **/tmpenv
 
 LICENSE
 README.md

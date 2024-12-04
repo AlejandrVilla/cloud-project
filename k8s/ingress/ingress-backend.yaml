@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: server-detection-ingress
+  annotations:
+    # nginx.ingress.kubernetes.io/rewrite-target: /   # redirigir trafico
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  ingressClassName: "nginx"
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: server-detection
+                port:
+                  number: 5000
