@@ -98,7 +98,7 @@ def process_video(data):
             _, buffer = cv2.imencode('.jpg', processed_frame)
             frame_data = buffer.tobytes()
             socketio.emit('frame', frame_data, to=request.sid)
-            time.sleep(0.03)  # Controlar la tasa de envío de frames
+            time.sleep(0)  # Controlar la tasa de envío de frames
 
     except Exception as e:
         print(f"Error durante la transmisión: {e}")
