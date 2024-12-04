@@ -33,4 +33,4 @@ COPY . .
 EXPOSE 5000
 
 # CMD python3 server.py
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "server:app"]
+CMD ["gunicorn", "-w", "8", "-b", "0.0.0.0:5000", "--timeout", "600", "server:app"]
