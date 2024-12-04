@@ -7,6 +7,6 @@ opencv-python
 ultralytics
 # numpy
 # eventlet
-# gevent
-# gevent-websocket
+gevent
+gevent-websocket
 gunicorn
