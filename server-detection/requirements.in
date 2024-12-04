@@ -6,6 +6,6 @@ opencv-python
 # torchvision
 ultralytics
 # numpy
-# eventlet
-gevent
-gevent-websocket
+eventlet
+# gevent
+# gevent-websocket

@@ -22,6 +22,7 @@ const UploadVideo = () => {
         const formData = new FormData();
         formData.append('video', videoFile);
         try {
+            console.log(`subiendo video ${videoFile.name}`);
             const response = await axios.post(
                 UPLOAD_URL,
                 formData,              
