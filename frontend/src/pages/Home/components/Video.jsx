@@ -9,7 +9,7 @@ const Video = ({ socket, video }) => {
         setCurrentFrame(null); // Reinicia el frame actual
         socket.emit('process_video', { filename: video });
     };
-    // console.log(currentFrame);
+    console.log(currentFrame);
     useEffect(() => {
         // Recibir frames desde el servidor
         socket.on('frame', (frame) => {

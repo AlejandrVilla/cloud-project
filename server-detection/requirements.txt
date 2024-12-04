@@ -22,10 +22,6 @@ contourpy==1.3.1
     # via matplotlib
 cycler==0.12.1
     # via matplotlib
-dnspython==2.7.0
-    # via eventlet
-eventlet==0.38.0
-    # via -r requirements.in
 filelock==3.16.1
     # via torch
 flask==3.1.0
@@ -41,8 +37,6 @@ fonttools==4.55.0
     # via matplotlib
 fsspec==2024.10.0
     # via torch
-greenlet==3.1.1
-    # via eventlet
 h11==0.14.0
     # via wsproto
 idna==3.10
