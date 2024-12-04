@@ -39,8 +39,9 @@ def upload_video():
     file = request.files['video']
     filename = file.filename
     file_path = os.path.join(VIDEO_DIR, filename)
+    print(f"guardando video {filename}")
     file.save(file_path)
-
+    print(f"video {filename} guardado")
     msj = {
         "message": "Video uploaded successfully", 
         "filename": filename
