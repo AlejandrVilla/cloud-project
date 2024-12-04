@@ -13,8 +13,8 @@ CORS(app)
 
 socketio = SocketIO(
     app, 
-    cors_allowed_origins="*",
-    async_mode="eventlet"
+    cors_allowed_origins="*"
+    # async_mode="eventlet"
 )
 
 VIDEO_DIR = "videos/"
