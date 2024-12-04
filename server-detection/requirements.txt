@@ -76,7 +76,6 @@ numpy==2.1.3
     #   contourpy
     #   matplotlib
     #   opencv-python
-    #   opencv-python-headless
     #   pandas
     #   scipy
     #   seaborn
@@ -84,9 +83,9 @@ numpy==2.1.3
     #   ultralytics
     #   ultralytics-thop
 opencv-python==4.10.0.84
-    # via ultralytics
-opencv-python-headless==4.10.0.84
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   ultralytics
 packaging==24.2
     # via matplotlib
 pandas==2.2.3
