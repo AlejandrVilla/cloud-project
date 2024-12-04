@@ -9,3 +9,4 @@ ultralytics
 # eventlet
 # gevent
 # gevent-websocket
+gunicorn
