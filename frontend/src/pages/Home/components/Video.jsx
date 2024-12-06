@@ -33,6 +33,16 @@ const Video = ({ socket, video }) => {
         };
     }, [socket]);
 
+    useEffect(() => {
+        const keepAliveInterval = setInterval(() => {
+            if (socket.connected) {
+                socket.emit("keep_alive", { message: "Estoy vivo" });
+            }
+        }, 5000); // Cada 10 segundos
+    
+        return () => clearInterval(keepAliveInterval);
+    }, [socket]);
+
     return (
         <div>
             <button onClick={() => handlePlayVideo(video)}>Conectar a la camara {video}</button>
