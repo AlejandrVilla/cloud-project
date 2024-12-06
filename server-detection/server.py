@@ -6,7 +6,11 @@ import cv2
 import os
 from ultralytics import YOLO
 import logging
+import torch
+
 logging.getLogger("ultralytics").setLevel(logging.WARNING)
+
+print(f"Cuda available: {torch.cuda.is_available()}")  # Debe retornar True si hay una GPU.
 
 app = Flask(__name__)
 CORS(app)
@@ -22,6 +26,8 @@ os.makedirs(VIDEO_DIR, exist_ok=True)
 
 # Cargar modelo YOLOv8
 model = YOLO("yolov8n.pt", verbose=False)
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"device used {device}")
 
 # Diccionario para rastrear el estado de conexión de los clientes
 client_connections = {}
@@ -80,6 +86,11 @@ def process_video(data):
     print(f"Transmitiendo {filename} a {request.sid}")
     # Procesar el video con OpenCV
     cap = cv2.VideoCapture(file_path)
+    cap.set(cv2.CAP_PROP_FPS, 30)  # Reducir FPS si no necesitas tiempo real completo
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)  # Cambiar a resoluciones más bajas
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+    frame_count = 0
+    interval = 5  # Procesar un frame cada 5
     try:
         while cap.isOpened():
             # Verificar si el cliente aún está conectado
@@ -90,15 +101,17 @@ def process_video(data):
             ret, frame = cap.read()
             if not ret:
                 break
+            
+            frame_count += 1
+            if frame_count % interval == 0:
+                # Detección de objetos con YOLOv8
+                processed_frame = detect_objects(frame)
 
-            # Detección de objetos con YOLOv8
-            processed_frame = detect_objects(frame)
-
-            # Convertir frame para envío
-            _, buffer = cv2.imencode('.jpg', processed_frame)
-            frame_data = buffer.tobytes()
-            socketio.emit('frame', frame_data, to=request.sid)
-            time.sleep(0)  # Controlar la tasa de envío de frames
+                # Convertir frame para envío
+                _, buffer = cv2.imencode('.jpg', processed_frame)
+                frame_data = buffer.tobytes()
+                socketio.emit('frame', frame_data, to=request.sid)
+                time.sleep(0)  # Controlar la tasa de envío de frames
 
     except Exception as e:
         print(f"Error durante la transmisión: {e}")
@@ -109,7 +122,7 @@ def process_video(data):
 
 def detect_objects(frame):
     # Detectar objetos en el frame usando YOLOv8
-    results = model.predict(source=frame, save=False, save_txt=False, conf=0.25, device="cpu", stream=True)
+    results = model.predict(source=frame, save=False, save_txt=False, conf=0.25, device=device, stream=True)
     for result in results:
         for box in result.boxes:
             x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())  # Coordenadas del bounding box
@@ -124,4 +137,4 @@ def detect_objects(frame):
     return frame
 
 # if __name__ == '__main__':
-    # socketio.run(app, debug=True, host="0.0.0.0", port=5000)
+#     socketio.run(app, debug=True, host="0.0.0.0", port=5000)
