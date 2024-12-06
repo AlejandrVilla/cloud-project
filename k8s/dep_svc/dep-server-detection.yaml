@@ -17,10 +17,10 @@ spec:
           image: avherrera/server-detection:v0.0.0
           ports:
             - containerPort: 5000
-      #     volumeMounts:
-      #       - name: video-storage
-      #         mountPath: /app/videos # El contenedor accederá a /app/videos
-      # volumes:
-      #   - name: video-storage
-      #     persistentVolumeClaim:
-      #       claimName: video-pvc # El PVC que usaremos para almacenar los videos
+          volumeMounts:
+            - name: video-storage
+              mountPath: /app/videos # El contenedor accederá a /app/videos
+      volumes:
+        - name: video-storage
+          persistentVolumeClaim:
+            claimName: nfs-pvc # El PVC que usaremos para almacenar los videos
