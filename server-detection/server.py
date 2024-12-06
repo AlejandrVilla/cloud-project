@@ -17,8 +17,9 @@ CORS(app)
 
 socketio = SocketIO(
     app, 
-    cors_allowed_origins="*"
-    # async_mode="eventlet"
+    cors_allowed_origins="*", 
+    ping_timeout=30,  # Tiempo máximo (en segundos) para esperar un "pong"
+    ping_interval=10  # Intervalo (en segundos) para enviar un "ping"
 )
 
 VIDEO_DIR = "videos/"
@@ -73,6 +74,10 @@ def handle_disconnect():
     client_connections[request.sid] = False
     print(f"user {request.sid} disconnected")
     emit("disconnect", {"id": f"{request.sid}"})
+
+@socketio.on("keep_alive")
+def handle_keep_alive(data):
+    print(f"Keep-alive recibido: {data['message']}")
 
 @socketio.on('process_video')
 def process_video(data):
