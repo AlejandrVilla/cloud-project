@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import SearchVideos from './components/SearchVideos.jsx';
 import UploadVideo from './components/UploadVideo.jsx';
 
-const SERVER_URL = `${import.meta.env.VITE_SERVER_URL}/`;
+const SERVER_URL = `ws://${import.meta.env.VITE_SERVER_URL}/`;
 // const SERVER_URL = "http://127.0.0.1:5000";
 
 function Home() {
