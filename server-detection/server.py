@@ -77,7 +77,7 @@ def handle_disconnect():
 
 @socketio.on("keep_alive")
 def handle_keep_alive(data):
-    print(f"Keep-alive recibido: {data['message']}")
+    print(f"Keep-alive recibido: {data['message']}, usuario: {request.sid}")
 
 @socketio.on('process_video')
 def process_video(data):
@@ -105,6 +105,7 @@ def process_video(data):
 
             ret, frame = cap.read()
             if not ret:
+                print("frame no leido -> exit")
                 break
             
             frame_count += 1
