@@ -55,7 +55,7 @@ function Home() {
       {currentVideo ? (
         <>
           {!connectStatus ? (
-            <button onClick={handleConnect}>Conectar a la camara {currentVideo}</button>
+            <button onClick={handleConnect}>Conectar al servidor ({currentVideo})</button>
           ) : (
             <>
               <button onClick={handleConnect}>Desconectar del servidor</button>
