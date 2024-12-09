@@ -91,11 +91,12 @@ def process_video(data):
     print(f"Transmitiendo {filename} a {request.sid}")
     # Procesar el video con OpenCV
     cap = cv2.VideoCapture(file_path)
-    cap.set(cv2.CAP_PROP_FPS, 30)  # Reducir FPS si no necesitas tiempo real completo
+    cap.set(cv2.CAP_PROP_FPS, 15)  # Reducir FPS si no necesitas tiempo real completo
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)  # Cambiar a resoluciones más bajas
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+    fps = cap.get(cv2.CAP_PROP_FPS)
     frame_count = 0
-    interval = 5  # Procesar un frame cada 5
+    interval = 3  # Procesar un frame cada 5
     try:
         while cap.isOpened():
             # Verificar si el cliente aún está conectado
@@ -105,18 +106,24 @@ def process_video(data):
 
             ret, frame = cap.read()
             if not ret:
-                print("frame no leido -> exit")
+                print("frame no leído -> exit")
                 break
             
             frame_count += 1
             if frame_count % interval == 0:
+                # Momento actual del frame en segundos
+                frame_time = frame_count / fps
+
                 # Detección de objetos con YOLOv8
-                processed_frame = detect_objects(frame)
+                processed_frame, metadata = detect_objects_with_metadata(frame, frame_time, frame_count)
+
+                # Guardar metadata en la lista
+                # metadata_list.append(metadata)
 
                 # Convertir frame para envío
                 _, buffer = cv2.imencode('.jpg', processed_frame)
                 frame_data = buffer.tobytes()
-                socketio.emit('frame', frame_data, to=request.sid)
+                socketio.emit('frame', {"frame": frame_data, "metadata": metadata}, to=request.sid)
                 time.sleep(0)  # Controlar la tasa de envío de frames
 
     except Exception as e:
@@ -126,21 +133,37 @@ def process_video(data):
         socketio.emit('end_of_video', to=request.sid)
         print(f"Transmisión finalizada para el cliente {request.sid}")
 
-def detect_objects(frame):
+        # print("Metadata generada:", metadata_list)
+
+def detect_objects_with_metadata(frame, frame_time, frame_count):
     # Detectar objetos en el frame usando YOLOv8
     results = model.predict(source=frame, save=False, save_txt=False, conf=0.25, device=device, stream=True)
+    metadata = {
+        "frame_index": frame_count,
+        "frame_time": frame_time,
+        "detections": []
+    }
+
     for result in results:
         for box in result.boxes:
             x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())  # Coordenadas del bounding box
-            confidence = box.conf[0]  # Confianza
+            confidence = float(box.conf[0])  # Confianza
             class_id = int(box.cls[0])  # Clase detectada
+            label = model.names[class_id]
+
+            # Agregar detección al metadata
+            metadata["detections"].append({
+                "class_id": class_id,
+                "label": label,
+                "confidence": confidence,
+                "bounding_box": {"x1": x1, "y1": y1, "x2": x2, "y2": y2}
+            })
 
             # Dibujar el bounding box en el frame
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            label = f"{model.names[class_id]}: {confidence:.2f}"
-            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+            cv2.putText(frame, f"{label}: {confidence:.2f}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
-    return frame
+    return frame, metadata
 
 # if __name__ == '__main__':
 #     socketio.run(app, debug=True, host="0.0.0.0", port=5000)
