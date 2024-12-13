@@ -18,21 +18,21 @@ spec:
                 name: server-detection
                 port:
                   number: 5000
-          - path: /get-video
+          - path: /videos
             pathType: Prefix
             backend:
               service:
                 name: get-video
                 port:
                   number: 5001
-          - path: /upload-video
+          - path: /upload
             pathType: Prefix
             backend:
               service:
                 name: upload-video
                 port:
                   number: 5002
-          - path: /get-frame
+          - path: /frame
             pathType: Prefix
             backend:
               service:

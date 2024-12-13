@@ -14,12 +14,12 @@ spec:
     spec:
       containers:
         - name: get-video
-          image: avherrera/get-video:v0.0.0
+          image: avherrera/get-video:v0.0.1
           ports:
             - containerPort: 5001
           volumeMounts:
             - name: video-storage
-              mountPath: /app/videos # El contenedor accederá a /app/videos
+              mountPath: /app/data # El contenedor accederá a /app/data
       volumes:
         - name: video-storage
           persistentVolumeClaim:
