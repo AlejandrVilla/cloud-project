@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: get-frame
-          image: avherrera/get-frame:v0.0.1
+          image: avherrera/get-frame:v0.0.2
           ports:
             - containerPort: 5003
           volumeMounts:

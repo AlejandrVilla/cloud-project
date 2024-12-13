@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: upload-video
-          image: avherrera/upload-video:v0.0.1
+          image: avherrera/upload-video:v0.0.2
           ports:
             - containerPort: 5002
           volumeMounts:
