@@ -33,36 +33,6 @@ print(f"device used {device}")
 # Diccionario para rastrear el estado de conexión de los clientes
 client_connections = {}
 
-@app.route('/upload', methods=['POST'])
-@cross_origin()
-def upload_video():
-    if 'video' not in request.files:
-        msj = {
-            "error": "No video file provided"
-        }
-        response = jsonify(msj)
-        response.status_code = 400
-        return response
-    file = request.files['video']
-    filename = file.filename
-    print(f"guardando video {filename}")
-    file_path = os.path.join(VIDEO_DIR, filename)
-    file.save(file_path)
-    print(f"video {filename} guardado")
-    msj = {
-        "message": "Video uploaded successfully", 
-        "filename": filename
-    }
-    response = jsonify(msj)
-    response.status_code = 201
-    return response
-
-@app.route('/videos', methods=['GET'])
-def list_videos():
-    # Lista los videos disponibles
-    videos = os.listdir(VIDEO_DIR)
-    return jsonify(videos)
-
 @socketio.on("connect")
 def handle_connect():
     client_connections[request.sid] = True
@@ -116,9 +86,6 @@ def process_video(data):
 
                 # Detección de objetos con YOLOv8
                 processed_frame, metadata = detect_objects_with_metadata(frame, frame_time, frame_count)
-
-                # Guardar metadata en la lista
-                # metadata_list.append(metadata)
 
                 # Convertir frame para envío
                 _, buffer = cv2.imencode('.jpg', processed_frame)
