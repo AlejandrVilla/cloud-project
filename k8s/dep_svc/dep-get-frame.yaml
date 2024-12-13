@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: server-detection
+  name: get-frame
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: server-detection
+      app: get-frame
   template:
     metadata:
       labels:
-        app: server-detection
+        app: get-frame
     spec:
       containers:
-        - name: server-detection
-          image: avherrera/server-detection:v0.1.0
+        - name: get-frame
+          image: avherrera/get-frame:v0.0.0
           ports:
-            - containerPort: 5000
+            - containerPort: 5003
           volumeMounts:
             - name: video-storage
               mountPath: /app/videos # El contenedor accederá a /app/videos
