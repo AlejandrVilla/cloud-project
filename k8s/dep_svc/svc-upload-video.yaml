@@ -6,7 +6,7 @@ metadata:
   labels:
     app: upload-video
 spec:
-  type: ClusterIp
+  type: ClusterIP
   selector:
     app: upload-video
   ports:

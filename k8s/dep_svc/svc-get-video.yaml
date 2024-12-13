@@ -6,7 +6,7 @@ metadata:
   labels:
     app: get-video
 spec:
-  type: ClusterIp
+  type: ClusterIP
   selector:
     app: get-video
   ports:
