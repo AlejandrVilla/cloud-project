@@ -17,7 +17,7 @@ redis_client = redis.StrictRedis(
 
 # Directorio donde se almacenan las imágenes
 # IMAGE_DIR = "../upload-video/imagenes/"   # for dev
-IMAGE_DIR = "imagenes/"
+IMAGE_DIR = "data/imagenes/"
 
 @app.route("/frame", methods=["GET"])
 @cross_origin()

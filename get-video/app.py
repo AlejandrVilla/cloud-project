@@ -16,7 +16,7 @@ redis_client = redis.StrictRedis(
 )
 
 # VIDEO_DIR = "../upload-video/videos/"     # for dev
-VIDEO_DIR = "videos/"
+VIDEO_DIR = "data/videos/"
 
 os.makedirs(VIDEO_DIR, exist_ok=True)
 

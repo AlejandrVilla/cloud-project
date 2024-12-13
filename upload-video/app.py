@@ -18,8 +18,8 @@ app = Flask(__name__)
 CORS(app)
 
 # Configuración de directorios
-VIDEO_DIR = "videos/"
-IMAGE_DIR = "imagenes/"
+VIDEO_DIR = "data/videos/"
+IMAGE_DIR = "data/imagenes/"
 os.makedirs(VIDEO_DIR, exist_ok=True)
 os.makedirs(IMAGE_DIR, exist_ok=True)
 

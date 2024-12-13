@@ -22,7 +22,7 @@ socketio = SocketIO(
     ping_interval=10  # Intervalo (en segundos) para enviar un "ping"
 )
 
-VIDEO_DIR = "videos/"
+VIDEO_DIR = "data/videos/"
 os.makedirs(VIDEO_DIR, exist_ok=True)
 
 # Cargar modelo YOLOv8
