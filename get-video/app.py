@@ -27,7 +27,7 @@ def list_videos():
     return jsonify(videos)
 
 # corregir para que las consultas regresen solo los objetos en el video especificado
-@app.route("/search", methods=["GET"])
+@app.route("/videos/search", methods=["GET"])
 @cross_origin()
 def search_objects():
     video = request.args.get("video")

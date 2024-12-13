@@ -62,7 +62,7 @@ def get_frame():
         print(f"Error al recuperar frame: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@app.route("/image/<filename>", methods=["GET"])
+@app.route("/frame/image/<filename>", methods=["GET"])
 @cross_origin()
 def get_image(filename):
     # Ruta completa de la imagen solicitada
