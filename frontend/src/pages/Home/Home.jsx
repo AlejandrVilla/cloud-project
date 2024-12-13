@@ -5,8 +5,8 @@ import SearchVideos from './components/SearchVideos.jsx';
 import UploadVideo from './components/UploadVideo.jsx';
 import SearchFrame from './components/SearchFrame.jsx';
 
-// const SERVER_URL = `ws://${import.meta.env.VITE_SERVER_URL}/`;
-const SERVER_URL = `ws://${import.meta.env.VITE_DEV_SERVER_URL}:5000/`;
+const SERVER_URL = `ws://${import.meta.env.VITE_SERVER_URL}/`;
+// const SERVER_URL = `ws://${import.meta.env.VITE_DEV_SERVER_URL}:5000/`;
 
 function Home() {
   const [currentVideo, setCurrentVideo] = useState();   // video a revisar

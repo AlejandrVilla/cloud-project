@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-// const SERVER_URL = `http://${import.meta.env.VITE_SERVER_URL}/videos`;
-const SERVER_URL = `http://${import.meta.env.VITE_DEV_SERVER_URL}:5001/videos`;
+const SERVER_URL = `http://${import.meta.env.VITE_SERVER_URL}/videos`;
+// const SERVER_URL = `http://${import.meta.env.VITE_DEV_SERVER_URL}:5001/videos`;
 
 const SearchVideos = ({ setCurrentVideo, setConnectStatus}) => {
     const [videos, setVideos] = useState([]);      // lista de videos en el servidor
