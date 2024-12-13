@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const SEARCH_URL = `http://${import.meta.env.VITE_SERVER_URL}/search`;
+const SEARCH_URL = `http://${import.meta.env.VITE_SERVER_URL}/videos/search`;
 const GET_FRAME_URL = `http://${import.meta.env.VITE_SERVER_URL}/frame`;
-const GET_IMAGE_URL = `http://${import.meta.env.VITE_SERVER_URL}`; 
+const GET_IMAGE_URL = `http://${import.meta.env.VITE_SERVER_URL}/frame`; 
 
 // const SEARCH_URL = `http://${import.meta.env.VITE_DEV_SERVER_URL}:5001/search`;
 // const GET_FRAME_URL = `http://${import.meta.env.VITE_DEV_SERVER_URL}:5003/frame`;
