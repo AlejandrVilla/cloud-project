@@ -16,8 +16,8 @@ redis_client = redis.StrictRedis(
 )
 
 # Directorio donde se almacenan las imágenes
-IMAGE_DIR = "../upload-video/imagenes/"   # for dev
-# IMAGE_DIR = "imagenes/"
+# IMAGE_DIR = "../upload-video/imagenes/"   # for dev
+IMAGE_DIR = "imagenes/"
 
 @app.route("/frame", methods=["GET"])
 @cross_origin()
@@ -40,8 +40,8 @@ def get_frame():
         
         # Ruta de la imagen asociada al frame
         image_path = metadata.get("image_path")
-        image_path = f"../upload-video/{image_path}"  # for dev
-        # image_path = f"{image_path}"
+        # image_path = f"../upload-video/{image_path}"  # for dev
+        image_path = f"{image_path}"
 
         if not image_path or not os.path.exists(image_path):
             print(f"Imagen {image_path} no encontrada")
@@ -74,5 +74,5 @@ def get_image(filename):
         return jsonify({"error": "Image file not found"}), 404
     return send_file(image_path, mimetype='image/jpeg')
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5003, debug=True)
+# if __name__ == "__main__":
+#     app.run(host="0.0.0.0", port=5003, debug=True)

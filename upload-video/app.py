@@ -137,5 +137,5 @@ def detect_objects_with_metadata(frame, frame_time, frame_count):
 
     return frame, metadata
 
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5002, debug=True)
+# if __name__ == '__main__':
+#     app.run(host="0.0.0.0", port=5002, debug=True)

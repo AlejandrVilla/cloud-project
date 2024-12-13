@@ -15,8 +15,8 @@ redis_client = redis.StrictRedis(
     decode_responses=True  # Decodifica automáticamente las respuestas de Redis a strings
 )
 
-VIDEO_DIR = "../upload-video/videos/"     # for dev
-# VIDEO_DIR = "videos/"
+# VIDEO_DIR = "../upload-video/videos/"     # for dev
+VIDEO_DIR = "videos/"
 
 os.makedirs(VIDEO_DIR, exist_ok=True)
 
@@ -71,5 +71,5 @@ def search_objects():
         return jsonify({"error": str(e)}), 500
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+# if __name__ == "__main__":
+#     app.run(host="0.0.0.0", port=5001, debug=True)
