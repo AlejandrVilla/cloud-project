@@ -35,6 +35,7 @@
 **/geventenv
 **/nv
 **/videos
+**/imagenes
 **/yolov5s.pt
 **/yolov8n.pt
 **/tmpenv
