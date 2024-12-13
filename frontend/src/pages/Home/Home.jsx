@@ -3,9 +3,10 @@ import Video from './components/Video.jsx'
 import { io } from 'socket.io-client';
 import SearchVideos from './components/SearchVideos.jsx';
 import UploadVideo from './components/UploadVideo.jsx';
+import SearchFrame from './components/SearchFrame.jsx';
 
-const SERVER_URL = `ws://${import.meta.env.VITE_SERVER_URL}/`;
-// const SERVER_URL = "http://127.0.0.1:5000";
+// const SERVER_URL = `ws://${import.meta.env.VITE_SERVER_URL}/`;
+const SERVER_URL = `ws://${import.meta.env.VITE_DEV_SERVER_URL}:5000/`;
 
 function Home() {
   const [currentVideo, setCurrentVideo] = useState();   // video a revisar
@@ -54,14 +55,17 @@ function Home() {
         setConnectStatus={setConnectStatus}/>
       {currentVideo ? (
         <>
-          {!connectStatus ? (
-            <button onClick={handleConnect}>Conectar al servidor ({currentVideo})</button>
-          ) : (
-            <>
-              <button onClick={handleConnect}>Desconectar del servidor</button>
-              {!loading && <Video socket={socketInstance} video={currentVideo} />}
-            </>
-          )}
+          <div>
+            {!connectStatus ? (
+              <button onClick={handleConnect}>Conectar al servidor ({currentVideo})</button>
+            ) : (
+              <>
+                <button onClick={handleConnect}>Desconectar del servidor</button>
+                {!loading && <Video socket={socketInstance} video={currentVideo} />}
+              </>
+            )}
+          </div>
+          <SearchFrame currentVideo={currentVideo}/>
         </>
       ) : (
         <p>no video seleccionado</p>
