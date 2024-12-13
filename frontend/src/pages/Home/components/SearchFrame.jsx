@@ -16,7 +16,6 @@ const SearchFrame = ({ currentVideo }) => {
   const [results, setResults] = useState([]); // Para almacenar los resultados
   const [loading, setLoading] = useState(false); // Para mostrar un indicador de carga
   const [frameMetadata, setFrameMetadata] = useState(null); // Metadata del frame seleccionado
-  const [frameIndex, setFrameIndex] = useState(null);
   const [error, setError] = useState(null); // Para manejar errores
   const [frame, setFrame] = useState(null); // Imagen del frame
 

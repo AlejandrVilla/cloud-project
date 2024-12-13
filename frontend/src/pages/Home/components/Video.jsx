@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import "./video.scss";
 
 const Video = ({ socket, video }) => {
     const [selectedVideo, setSelectedVideo] = useState(false);
@@ -7,7 +8,7 @@ const Video = ({ socket, video }) => {
     const [currentFrameIndex, setCurrentFrameIndex] = useState(0); // Índice del frame actual
     const [isPlaying, setIsPlaying] = useState(false); // Estado de reproducción
     const intervalRef = useRef(null);
-    
+
     const handlePlayVideo = (video) => {
         setSelectedVideo(true);
         setFrames([]); // Reinicia los frames
@@ -101,61 +102,62 @@ const Video = ({ socket, video }) => {
     const currentMetadata = metadata[currentFrameIndex];
 
     return (
-        <div>
+        <div className="video">
             <button onClick={() => handlePlayVideo(video)}>Conectar a la cámara {video}</button>
             {selectedVideo && (
-                <div>
+                <div className="video-content">
                     <h2>Reproduciendo: {video}</h2>
-                    <div>
-                        {frames.length > 0 ? (
-                            <div>
-                                <img
-                                    src={frames[currentFrameIndex]}
-                                    alt="Current Frame"
-                                    style={{ width: '100%' }}
-                                />
-                                <div>
-                                    <p>Frame: {currentMetadata.frame_index}</p>
-                                    <p>Tiempo: {currentMetadata.frame_time.toFixed(2)}</p>
-                                    <p>Detecciones {currentMetadata.detections.length}</p>
-                                    <ol>
-                                        {currentMetadata.detections.map((object, index) => (
-                                            <li key={index}>{object.label}</li>
-                                        ))}
-                                    </ol>
+                    {frames.length > 0 ? (
+                        <div className="video-reproductor">
+                            <div className="video-reproductor-content">
+                                <div className="video-rep-div">
+                                    <img
+                                        className="video-rep"
+                                        src={frames[currentFrameIndex]}
+                                        alt="Current Frame"
+                                    />
+                                </div>
+                                <div className="video-reproductor-buttons">
+                                    <button onClick={handlePrevFrame} disabled={currentFrameIndex === 0}>
+                                        {"<<"}
+                                    </button>
+                                    <button onClick={handlePause} disabled={!isPlaying}>
+                                        Pausa
+                                    </button>
+                                    <button onClick={handlePlay} disabled={isPlaying}>
+                                        Play
+                                    </button>
+                                    <button
+                                        onClick={handleNextFrame}
+                                        disabled={currentFrameIndex >= frames.length - 1}
+                                    >
+                                        {">>"}
+                                    </button>
+                                </div>
+                                <div className="video-reproductor-bar">
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="100"
+                                        value={(currentFrameIndex / (frames.length - 1)) * 100 || 0}
+                                        onChange={handleSeek}
+                                    />
                                 </div>
                             </div>
-                        ) : (
-                            <p>Cargando...</p>
-                        )}
-                    </div>
-                    <div style={{ marginTop: "10px" }}>
-                        <button onClick={handlePrevFrame} disabled={currentFrameIndex === 0}>
-                            {"<<"}
-                        </button>
-                        <button onClick={handlePause} disabled={!isPlaying}>
-                            Pausa
-                        </button>
-                        <button onClick={handlePlay} disabled={isPlaying}>
-                            Play
-                        </button>
-                        <button
-                            onClick={handleNextFrame}
-                            disabled={currentFrameIndex >= frames.length - 1}
-                        >
-                            {">>"}
-                        </button>
-                    </div>
-                    <div style={{ marginTop: "20px" }}>
-                        <input
-                            type="range"
-                            min="0"
-                            max="100"
-                            value={(currentFrameIndex / (frames.length - 1)) * 100 || 0}
-                            onChange={handleSeek}
-                            style={{ width: "100%" }}
-                        />
-                    </div>
+                            <div className="video-metadata">
+                                <p>Frame: {currentMetadata.frame_index}</p>
+                                <p>Tiempo: {currentMetadata.frame_time.toFixed(2)}</p>
+                                <p>Detecciones {currentMetadata.detections.length}</p>
+                                <ol className="video-metadata-objects">
+                                    {currentMetadata.detections.map((object, index) => (
+                                        <li key={index}>{object.label}</li>
+                                    ))}
+                                </ol>
+                            </div>
+                        </div>
+                    ) : (
+                        <p>Cargando...</p>
+                    )}
                 </div>
             )}
         </div>

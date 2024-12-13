@@ -1,0 +1,34 @@
+.home{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.home-buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.option-video{
+    display: none;
+}
+
+.option-video.active{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.option-search-frame{
+    display: none;
+}
+
+.option-search-frame.active{
+    display: flex;
+}

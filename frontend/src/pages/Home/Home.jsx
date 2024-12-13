@@ -4,6 +4,7 @@ import { io } from 'socket.io-client';
 import SearchVideos from './components/SearchVideos.jsx';
 import UploadVideo from './components/UploadVideo.jsx';
 import SearchFrame from './components/SearchFrame.jsx';
+import "./home.scss";
 
 const SERVER_URL = `ws://${import.meta.env.VITE_SERVER_URL}/`;
 // const SERVER_URL = `ws://${import.meta.env.VITE_DEV_SERVER_URL}:5000/`;
@@ -13,6 +14,7 @@ function Home() {
   const [socketInstance, setSocketInstance] = useState("");
   const [loading, setLoading] = useState(true);
   const [connectStatus, setConnectStatus] = useState(false);
+  const [currentOption, setCurrentOption] = useState("");
 
   const handleConnect = () => {
     setConnectStatus(!connectStatus);
@@ -48,16 +50,23 @@ function Home() {
   }, [connectStatus]);
 
   return (
-    <div className="App">
+    <div className="home">
       <UploadVideo />
       <SearchVideos
         setCurrentVideo={setCurrentVideo}
-        setConnectStatus={setConnectStatus}/>
+        setConnectStatus={setConnectStatus} />
       {currentVideo ? (
         <>
-          <div>
+          <div className='home-buttons'>
+            <button onClick={() => setCurrentOption("video")}>video</button>
+            <button onClick={() => setCurrentOption("frame")}>frame</button>
+          </div>
+          <div
+            className={`option-video${currentOption === "video" ? " active" : ""}`}>
             {!connectStatus ? (
-              <button onClick={handleConnect}>Conectar al servidor ({currentVideo})</button>
+              <>
+                <button onClick={handleConnect}>Conectar al servidor ({currentVideo})</button>
+              </>
             ) : (
               <>
                 <button onClick={handleConnect}>Desconectar del servidor</button>
@@ -65,7 +74,10 @@ function Home() {
               </>
             )}
           </div>
-          <SearchFrame currentVideo={currentVideo}/>
+          <div
+            className={`option-search-frame${currentOption === "frame" ? " active" : ""}`}>
+            <SearchFrame currentVideo={currentVideo} />
+          </div>
         </>
       ) : (
         <p>no video seleccionado</p>
