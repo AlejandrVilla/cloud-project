@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./searchFrame.scss";
 
 const SEARCH_URL = `http://${import.meta.env.VITE_SERVER_URL}/videos/search`;
 const GET_FRAME_URL = `http://${import.meta.env.VITE_SERVER_URL}/frame`;
-const GET_IMAGE_URL = `http://${import.meta.env.VITE_SERVER_URL}/frame`; 
+const GET_IMAGE_URL = `http://${import.meta.env.VITE_SERVER_URL}/frame`;
 
 // const SEARCH_URL = `http://${import.meta.env.VITE_DEV_SERVER_URL}:5001/search`;
 // const GET_FRAME_URL = `http://${import.meta.env.VITE_DEV_SERVER_URL}:5003/frame`;
@@ -76,91 +77,92 @@ const SearchFrame = ({ currentVideo }) => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="search-frame">
       <h2>Buscar Frames por Objeto</h2>
-      <form onSubmit={handleSearch} style={{ marginBottom: "20px" }}>
-        <div style={{ marginBottom: "10px" }}>
+      <form onSubmit={handleSearch} className="search-form">
+        <div className="search-box">
           <label>
             <strong>Objeto a Buscar:</strong>
           </label>
           <input
+            className="search-frame-input"
             type="text"
             placeholder="Buscar (e.g., person, car)"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            style={{
-              padding: "10px",
-              fontSize: "16px",
-              width: "300px",
-              marginRight: "10px",
-            }}
           />
         </div>
-        <button type="submit" style={{ padding: "10px 20px", fontSize: "16px" }}>
+        <button type="submit" >
           Buscar
         </button>
       </form>
 
-      {loading && <p>Cargando resultados...</p>}
+      {loading && !(results.length > 0) && <p>Cargando resultados...</p>}
 
       {error && <p style={{ color: "red" }}>{error}</p>}
-
-      <div>
+      <div className="result-div">
         {results.length > 0 && (
-          <div>
-            <h3>Resultados: {totalResults}</h3>
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              {results.map((result, index) => (
-                <li key={index} style={{ marginBottom: "10px" }}>
-                  <button
-                    onClick={() => handleGetFrame(result.frame_index)}
-                    style={{
-                      border: "1px solid #ddd",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      cursor: "pointer",
-                      width: "100%",
-                    }}
-                  >
-                    <p>
-                      <strong>Frame Index:</strong> {result.frame_index}
-                    </p>
-                    <p>
-                      <strong>Tiempo:</strong> {result.frame_time.toFixed(2)} s
-                    </p>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <>
+            <div className="frame-items">
+              <h3>Resultados: {totalResults}</h3>
+              <ul className="frame-button-list">
+                {results.map((result, index) => (
+                  <li className="frame-button" key={index}>
+                    <button
+                      className="frame-button-content"
+                      onClick={() => handleGetFrame(result.frame_index)}
+                    >
+                      <p>
+                        <strong>Frame Index:</strong> {result.frame_index}
+                      </p>
+                      <p>
+                        <strong>Tiempo:</strong> {result.frame_time.toFixed(2)} s
+                      </p>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="frame-div">
+              {frame ? (
+                <>
+                  <h3>Frame Seleccionado</h3>
+                  <img
+                    className="frame"
+                    src={frame}
+                    alt="Frame"
+                  />
+                  {frameMetadata && (
+                    <div className="frame-metadata">
+                      <p>
+                        <strong>Frame:</strong> {frameMetadata.metadata.frame_index}
+                      </p>
+                      <p>
+                        <strong>Momento:</strong> {frameMetadata.metadata.frame_time.toFixed(2)}
+                      </p>
+                      <p>
+                        <strong>Ruta de la Imagen:</strong> {frameMetadata.metadata.image_path}
+                      </p>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {loading && results.length > 0 ? (
+                    <h2>Cargando resultados...</h2>
+                  ) : (
+                    <h2>No se selecciono un momento especifico</h2>
+                  )}
+                </>
+              )}
+            </div>
+          </>
         )}
-
-        {results.length === 0 && !loading && !error && <p>No hay resultados.</p>}
       </div>
 
-      {frame && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Frame Seleccionado</h3>
-          <img
-            src={frame}
-            alt="Frame"
-            style={{ maxWidth: "100%", height: "auto", border: "1px solid #ddd" }}
-          />
-          {frameMetadata && (
-            <div style={{ marginTop: "10px" }}>
-              <p>
-                <strong>Frame:</strong> {frameMetadata.metadata.frame_index}
-              </p>
-              <p>
-                <strong>Momento:</strong> {frameMetadata.metadata.frame_time.toFixed(2)}
-              </p>
-              <p>
-                <strong>Ruta de la Imagen:</strong> {frameMetadata.metadata.image_path}
-              </p>
-            </div>
-          )}
-        </div>
-      )}
+      <div className="no-result-div">
+        {results.length === 0 && !loading && !error && <p>No hay resultados.</p>}
+      </div>
     </div>
   );
 };

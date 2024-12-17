@@ -52,36 +52,40 @@ function Home() {
   return (
     <div className="home">
       <UploadVideo />
-      <SearchVideos
-        setCurrentVideo={setCurrentVideo}
-        setConnectStatus={setConnectStatus} />
-      {currentVideo ? (
-        <>
-          <div className='home-buttons'>
-            <button onClick={() => setCurrentOption("video")}>video</button>
-            <button onClick={() => setCurrentOption("frame")}>frame</button>
-          </div>
-          <div
-            className={`option-video${currentOption === "video" ? " active" : ""}`}>
-            {!connectStatus ? (
-              <>
-                <button onClick={handleConnect}>Conectar al servidor ({currentVideo})</button>
-              </>
-            ) : (
-              <>
-                <button onClick={handleConnect}>Desconectar del servidor</button>
-                {!loading && <Video socket={socketInstance} video={currentVideo} />}
-              </>
-            )}
-          </div>
-          <div
-            className={`option-search-frame${currentOption === "frame" ? " active" : ""}`}>
-            <SearchFrame currentVideo={currentVideo} />
-          </div>
-        </>
-      ) : (
-        <p>no video seleccionado</p>
-      )}
+      <div className='home-content'>
+        <SearchVideos
+          setCurrentVideo={setCurrentVideo}
+          setConnectStatus={setConnectStatus} />
+        <div className='home-display'>
+          {currentVideo ? (
+            <>
+              <div className='home-buttons'>
+                <button onClick={() => setCurrentOption("video")}>video</button>
+                <button onClick={() => setCurrentOption("frame")}>frame</button>
+              </div>
+              <div
+                className={`option-video${currentOption === "video" ? " active" : ""}`}>
+                {!connectStatus ? (
+                  <>
+                    <button onClick={handleConnect}>Conectar al servidor ({currentVideo})</button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={handleConnect}>Desconectar del servidor</button>
+                    {!loading && <Video socket={socketInstance} video={currentVideo} />}
+                  </>
+                )}
+              </div>
+              <div
+                className={`option-search-frame${currentOption === "frame" ? " active" : ""}`}>
+                <SearchFrame currentVideo={currentVideo} />
+              </div>
+            </>
+          ) : (
+            <h2>no video seleccionado</h2>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

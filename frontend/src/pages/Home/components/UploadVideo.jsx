@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import "./uploadVideo.scss";
 
 const UPLOAD_URL = `http://${import.meta.env.VITE_SERVER_URL}/upload`;
 // const UPLOAD_URL = `http://${import.meta.env.VITE_DEV_SERVER_URL}:5002/upload`;
@@ -38,8 +39,8 @@ const UploadVideo = () => {
     }
 
     return (
-        <div>
-            <form onSubmit={handleUpload}>
+        <div className="upload-video">
+            <form onSubmit={handleUpload} className="upload-form">
                 <input type="file" accept="video/*" onChange={handleVideoChange}></input>
                 <button type="submit">Subir Video</button>
             </form>

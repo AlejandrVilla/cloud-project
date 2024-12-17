@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: space-between;
     width: 1200px;
+    gap: 10px;
 }
 
 .video-content{
@@ -60,9 +61,14 @@
 .video-metadata{
     width: 200px;
     height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .video-metadata-objects{
     overflow-y: scroll;    
     height: 400px;
+    width: 200px;
 }
