@@ -5,7 +5,7 @@ import "./searchVideo.scss";
 const SERVER_URL = `http://${import.meta.env.VITE_SERVER_URL}/videos`;
 // const SERVER_URL = `http://${import.meta.env.VITE_DEV_SERVER_URL}:5001/videos`;
 
-const SearchVideos = ({ setCurrentVideo, setConnectStatus }) => {
+const SearchVideos = ({ setCurrentOption, setCurrentVideo, setConnectStatus }) => {
     const [videos, setVideos] = useState([]);      // lista de videos en el servidor
     const [loadingCameras, setLoadingCameras] = useState(true);
 
@@ -26,10 +26,13 @@ const SearchVideos = ({ setCurrentVideo, setConnectStatus }) => {
         setLoadingCameras(true);
         setCurrentVideo("");
         setConnectStatus(false);
+        setCurrentOption("");
     }
 
     const handleVideo = (video) => {
+        setConnectStatus(false);
         setCurrentVideo(video);
+        setCurrentOption("");
     }
 
     return (
@@ -43,7 +46,7 @@ const SearchVideos = ({ setCurrentVideo, setConnectStatus }) => {
                         <p>No hay camaras disponibles</p>
                     ) : (
                         <>
-                            <h2>Selecciona una camara:</h2>
+                            <h2>Selecciona una camara</h2>
                             <div className="video-list-content">
                                 {videos.map((video, index) => (
                                     <button key={index} onClick={() => handleVideo(video)}>{video}</button>

@@ -1,8 +1,11 @@
 .upload-video{
     display: flex;   
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid white;
+    padding: 0 50px 50px 50px;
 }
 
 .upload-form{

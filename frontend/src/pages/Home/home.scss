@@ -8,11 +8,13 @@
 }
 
 .home-content{
+    // border: 1px solid white;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     // gap: 200px;
+    width: 100%;
 }
 
 .home-display{
@@ -43,6 +45,8 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    width: 100%;
+    min-height: 300px;
 }
 
 .option-search-frame{
@@ -51,4 +55,8 @@
 
 .option-search-frame.active{
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 300px;
 }

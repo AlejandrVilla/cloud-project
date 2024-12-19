@@ -25,6 +25,8 @@ const SearchFrame = ({ currentVideo }) => {
     setLoading(true);
     setError(null);
     setResults([]);
+    setFrame(null);
+    setFrameMetadata(null);
     try {
       // Construir la URL con los parámetros
       const response = await axios.get(SEARCH_URL, {
@@ -78,7 +80,7 @@ const SearchFrame = ({ currentVideo }) => {
 
   return (
     <div className="search-frame">
-      <h2>Buscar Frames por Objeto</h2>
+      <h2>Buscar objeto en {currentVideo}</h2>
       <form onSubmit={handleSearch} className="search-form">
         <div className="search-box">
           <label>
@@ -126,7 +128,7 @@ const SearchFrame = ({ currentVideo }) => {
             <div className="frame-div">
               {frame ? (
                 <>
-                  <h3>Frame Seleccionado</h3>
+                  <h3>{currentVideo}</h3>
                   <img
                     className="frame"
                     src={frame}
